@@ -14,22 +14,6 @@ var player_x = 0;
 var player_y = 50;
 var player_z = 0;
 var player_phi = 0;
-var lines = [
-    [800, 0, 100, 800, 0, -100],
-    [800, 200, 100, 800, 200, -100],
-    [800, 0, 100, 800, 200, 100],
-    [800, 0, -100, 800, 200, -100],
-
-    [1000, 0, 100, 1000, 0, -100],
-    [1000, 200, 100, 1000, 200, -100],
-    [1000, 0, 100, 1000, 200, 100],
-    [1000, 0, -100, 1000, 200, -100],
-
-    [1000, 0, 100, 800, 0, 100],
-    [800, 0, -100, 1000, 0, -100],
-    [800, 200, 100, 1000, 200, 100],
-    [800, 200, -100, 1000, 200, -100],
-];
 
 var forward = false;
 var backward = false;
@@ -43,7 +27,7 @@ var pan_right = false;
 function paintScreen() {
     ctx.fillStyle = BACKGROUND_COLOR;
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
-    renderLines();
+    renderShapes();
 }
 
 function updatePlayer() {
