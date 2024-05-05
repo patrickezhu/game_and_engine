@@ -1,3 +1,3 @@
 function renderShapes() {
-    drawRectPrism([800, 0, -100], [1000, 200, 100]);
+    drawRectPrism([800, 0, -100], [1000, 400, 100]);
 }

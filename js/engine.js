@@ -36,7 +36,8 @@ function translate(point_x, point_y, point_z) {
     ];
 
     var vector_to_screen_y = [
-        1, 0
+        Math.cos(up_down_angle),
+        Math.sin(up_down_angle)
     ];
 
     var y_coord = Math.tan(angleBetweenVectors(vector_to_screen_y, vector_to_point_y)) * SCREEN_DISTANCE;
