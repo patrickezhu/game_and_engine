@@ -25,7 +25,9 @@ function translate(point_x, point_y, point_z) {
         Math.sin(player_phi)
     ];
 
-    var x_coord = Math.tan(angleBetweenVectors(vector_to_screen_x, vector_to_point_x)) * SCREEN_DISTANCE;
+    var horiz_angle = angleBetweenVectors(vector_to_screen_x, vector_to_point_x);
+    if (Math.abs(horiz_angle) > 1.5) return false;
+    var x_coord = Math.tan(horiz_angle) * SCREEN_DISTANCE;
 
 
     // calculate y
@@ -57,6 +59,8 @@ function drawLine(line) {
 
     var a_translated = translate(aX, aY, aZ);
     var b_translated = translate(bX, bY, bZ);
+
+    if (!a_translated || !b_translated) return;
 
     if (
         (a_translated[0] > canvas.width || a_translated[0] < 0 ||
