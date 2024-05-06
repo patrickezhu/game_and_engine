@@ -11,7 +11,7 @@ const WALK_SPEED = 15;
 const TURN_SPEED = 0.02;
 
 var player_x = 0;
-var player_y = 50;
+var player_y = 100;
 var player_z = 0;
 var player_phi = 0;
 var up_down_angle = 0;
