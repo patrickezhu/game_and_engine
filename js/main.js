@@ -7,8 +7,8 @@ const SCREEN_DISTANCE = 800;
 const BACKGROUND_COLOR = "#1a1a1a";
 const LINE_COLOR = "#ffffff";
 
-const WALK_SPEED = 15;
-const TURN_SPEED = 0.02;
+const WALK_SPEED = 17;
+const TURN_SPEED = 0.025;
 
 var player_x = 0;
 var player_y = 100;

@@ -1,4 +1,4 @@
-function angleBetweenVectors(vector_v, vector_w) {
+function angleBetween2DVectors(vector_v, vector_w) {
     vx = vector_v[0];
     vy = vector_v[1];
     wx = vector_w[0];
@@ -13,6 +13,25 @@ function angleBetweenVectors(vector_v, vector_w) {
     return angleRadians;
 }
 
+function angleBetween3DVectors(vector_v, vector_w) {
+    var dotProduct = vector_v[0] * vector_w[0] + vector_v[1] * vector_w[1] + vector_v[2] * vector_w[2];
+    var magnitude_v = Math.sqrt(vector_v[0] * vector_v[0] + vector_v[1] * vector_v[1] + vector_v[2] * vector_v[2]);
+    var magnitude_w = Math.sqrt(vector_w[0] * vector_w[0] + vector_w[1] * vector_w[1] + vector_w[2] * vector_w[2]);
+    var angleRadians = Math.acos(dotProduct / (magnitude_v * magnitude_w));
+    return angleRadians;
+}
+
+function playerVec() {
+    var phi = player_phi;
+    var theta = Math.PI / 2 - up_down_angle;
+
+    var x = Math.sin(theta) * Math.cos(phi);
+    var z = Math.sin(theta) * Math.sin(phi);
+    var y = Math.cos(theta);
+    
+    return [x, y, z];
+}
+
 function translate(point_x, point_y, point_z) {
     // calculate x
     var vector_to_point_x = [
@@ -25,7 +44,7 @@ function translate(point_x, point_y, point_z) {
         Math.sin(player_phi)
     ];
 
-    var horiz_angle = angleBetweenVectors(vector_to_screen_x, vector_to_point_x);
+    var horiz_angle = angleBetween2DVectors(vector_to_screen_x, vector_to_point_x);
     if (Math.abs(horiz_angle) > 1.5) return false;
     var x_coord = Math.tan(horiz_angle) * SCREEN_DISTANCE;
 
@@ -42,14 +61,12 @@ function translate(point_x, point_y, point_z) {
         Math.sin(up_down_angle)
     ];
 
-    var y_coord = Math.tan(angleBetweenVectors(vector_to_screen_y, vector_to_point_y)) * SCREEN_DISTANCE;
+    var y_coord = Math.tan(angleBetween2DVectors(vector_to_screen_y, vector_to_point_y)) * SCREEN_DISTANCE;
 
     return [canvas.width / 2 + x_coord, canvas.height / 2 - y_coord];
 }
 
 function drawLine(line) {
-    ctx.strokeStyle = LINE_COLOR;
-    ctx.lineWidth = 2;
     var aX = line[0];
     var aY = line[1];
     var aZ = line[2];
@@ -57,67 +74,52 @@ function drawLine(line) {
     var bY = line[4];
     var bZ = line[5];
 
-    var a_translated = translate(aX, aY, aZ);
-    var b_translated = translate(bX, bY, bZ);
-
-    if (!a_translated || !b_translated) return;
-
-    if (
-        (a_translated[0] > canvas.width || a_translated[0] < 0 ||
-        a_translated[1] > canvas.height || a_translated[1] < 0) &&
-        (b_translated[0] > canvas.width || b_translated[0] < 0 ||
-        b_translated[1] > canvas.height || b_translated[1] < 0)
-    ) return;
-
-    ctx.beginPath();
-    ctx.moveTo(a_translated[0], a_translated[1]);
-    ctx.lineTo(b_translated[0], b_translated[1]);
-    ctx.stroke();
+    objects.push(new Line(aX, aY, aZ, bX, bY, bZ));
 }
 
-function drawPolygon(points) {
+function drawWireFramePolygon(points) {
     for (var i = 0; i < points.length; i++) {
-        var pointA = points[i];
-        var pointB = points[0];
+        let pointA = points[i];
+        let pointB = points[0];
         if (i < points.length - 1) pointB = points[i + 1];
         drawLine([pointA[0], pointA[1], pointA[2], pointB[0], pointB[1], pointB[2]])
     }
 }
 
-function drawRectPrism(pointA, pointB) {
-    drawPolygon([
+function drawWireFrameRectPrism(pointA, pointB) {
+    drawWireFramePolygon([
         [pointA[0], pointA[1], pointA[2]],
         [pointA[0], pointB[1], pointA[2]],
         [pointA[0], pointB[1], pointB[2]],
         [pointA[0], pointA[1], pointB[2]]
     ]);
-    drawPolygon([
+    drawWireFramePolygon([
         [pointB[0], pointA[1], pointA[2]],
         [pointB[0], pointB[1], pointA[2]],
         [pointB[0], pointB[1], pointB[2]],
         [pointB[0], pointA[1], pointB[2]]
     ]);
 
-    drawPolygon([
+    drawWireFramePolygon([
         [pointA[0], pointA[1], pointA[2]],
         [pointB[0], pointA[1], pointA[2]],
         [pointB[0], pointA[1], pointB[2]],
         [pointA[0], pointA[1], pointB[2]]
     ]);
-    drawPolygon([
+    drawWireFramePolygon([
         [pointA[0], pointB[1], pointA[2]],
         [pointB[0], pointB[1], pointA[2]],
         [pointB[0], pointB[1], pointB[2]],
         [pointA[0], pointB[1], pointB[2]]
     ]);
 
-    drawPolygon([
+    drawWireFramePolygon([
         [pointA[0], pointA[1], pointA[2]],
         [pointB[0], pointA[1], pointA[2]],
         [pointB[0], pointB[1], pointA[2]],
         [pointA[0], pointB[1], pointA[2]]
     ]);
-    drawPolygon([
+    drawWireFramePolygon([
         [pointA[0], pointA[1], pointB[2]],
         [pointB[0], pointA[1], pointB[2]],
         [pointB[0], pointB[1], pointB[2]],
