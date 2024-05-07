@@ -10,6 +10,8 @@ function keydown(event){
 		case 40: pan_down = true; break;
         case 37: pan_left = true; break;
         case 39: pan_right = true; break;
+
+		case 32: dc_move = !dc_move; break;
 	}
 }
 
