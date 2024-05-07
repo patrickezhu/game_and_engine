@@ -17,12 +17,12 @@ class Line {
     
         if (!a_translated || !b_translated) return;
     
-        if (
-            (a_translated[0] > canvas.width || a_translated[0] < 0 ||
-            a_translated[1] > canvas.height || a_translated[1] < 0) &&
-            (b_translated[0] > canvas.width || b_translated[0] < 0 ||
-            b_translated[1] > canvas.height || b_translated[1] < 0)
-        ) return;
+        // if ( i think this makes it so really long lines wont render, which isnt intended
+        //     (a_translated[0] > canvas.width || a_translated[0] < 0 ||
+        //     a_translated[1] > canvas.height || a_translated[1] < 0) &&
+        //     (b_translated[0] > canvas.width || b_translated[0] < 0 ||
+        //     b_translated[1] > canvas.height || b_translated[1] < 0)
+        // ) return;
     
         ctx.beginPath();
         ctx.moveTo(a_translated[0], a_translated[1]);
@@ -108,6 +108,8 @@ class Simple3DRectangle { // has 1 constant axis
                 d_translated = translate(this.bX, this.aY, this.bZ);
                 break;
         }
+
+        if (!a_translated || !b_translated || !c_translated || !d_translated) return;
 
         ctx.beginPath();
         ctx.moveTo(a_translated[0], a_translated[1]);

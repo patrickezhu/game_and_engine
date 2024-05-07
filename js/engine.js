@@ -45,7 +45,7 @@ function translate(point_x, point_y, point_z) {
     ];
 
     var horiz_angle = angleBetween2DVectors(vector_to_screen_x, vector_to_point_x);
-    if (Math.abs(horiz_angle) > 1.5) return false;
+    if (Math.abs(horiz_angle) > 1.5) return false; // point is behind player
     var x_coord = Math.tan(horiz_angle) * SCREEN_DISTANCE;
 
 
