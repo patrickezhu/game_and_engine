@@ -34,6 +34,7 @@ function playerVec() {
 
 function translate(point_x, point_y, point_z) {
     // calculate x
+    var in_bounds = true;
     var vector_to_point_x = [
         point_x - player_x,
         point_z - player_z
@@ -45,7 +46,7 @@ function translate(point_x, point_y, point_z) {
     ];
 
     var horiz_angle = angleBetween2DVectors(vector_to_screen_x, vector_to_point_x);
-    if (Math.abs(horiz_angle) > 1.5) return false; // point is behind player
+    if (Math.abs(horiz_angle) > 1.5) in_bounds = false; // point is behind player
     var x_coord = Math.tan(horiz_angle) * SCREEN_DISTANCE;
 
 
@@ -63,7 +64,7 @@ function translate(point_x, point_y, point_z) {
 
     var y_coord = Math.tan(angleBetween2DVectors(vector_to_screen_y, vector_to_point_y)) * SCREEN_DISTANCE;
 
-    return [canvas.width / 2 + x_coord, canvas.height / 2 - y_coord];
+    return [canvas.width / 2 + x_coord, canvas.height / 2 - y_coord, in_bounds];
 }
 
 function drawLine(line) {
